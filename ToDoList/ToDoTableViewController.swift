@@ -12,6 +12,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
     
     // MARK: Actions
     
+    // function that redirects to My To-Do's when new task is saved
     @IBAction func unwindToDoList(segue: UIStoryboardSegue) {
         guard segue.identifier == "saveUnwind" else { return }
         let sourceViewController = segue.source as!
@@ -36,6 +37,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // create edit button
         navigationItem.leftBarButtonItem = editButtonItem
         
         if let savedToDos = ToDo.loadToDos() {
@@ -81,6 +83,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
         }
     }
     
+    // pass model object to static table view controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetails" {
             let todoViewController = segue.destination as! ToDoViewController
@@ -90,6 +93,7 @@ class ToDoTableViewController: UITableViewController, ToDoCellDelegate {
         }
     }
     
+    // update check mark button
     func checkmarkTapped(sender: ToDoCell) {
         if let indexPath = tableView.indexPath(for: sender) {
             var todo = todos[indexPath.row]

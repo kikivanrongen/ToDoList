@@ -45,6 +45,7 @@ class ToDoViewController: UITableViewController {
     
     // MARK: Functions
     
+    // update properties of labels and buttons in table view
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -64,10 +65,12 @@ class ToDoViewController: UITableViewController {
         saveButton.isEnabled = !text.isEmpty
     }
     
+    // set date to correct time
     func updateDueDateLabel(date: Date) {
         dueDateLabel.text = ToDo.dueDateFormatter.string(from: date)
     }
     
+    // ensure proper view when app is opened
     override func viewDidLoad() {
         super.viewDidLoad()
         if let todo = todo {
@@ -83,4 +86,40 @@ class ToDoViewController: UITableViewController {
         updateDueDateLabel(date: dueDatePickerView.date)
         updateSaveButtonState()
     }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt
+        indexPath: IndexPath) -> CGFloat {
+        let normalCellHeight = CGFloat(44)
+        let largeCellHeight = CGFloat(200)
+        
+        switch(indexPath) {
+            case [1,0]: //Due Date Cell
+            return isPickerHidden ? normalCellHeight :
+            largeCellHeight
+
+            case [2,0]: //Notes Cell
+            return largeCellHeight
+            
+            default: return normalCellHeight
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt
+        indexPath: IndexPath) {
+        switch (indexPath) {
+            case [1,0]:
+            isPickerHidden = !isPickerHidden
+            
+            dueDateLabel.textColor =
+            isPickerHidden ? .black : tableView.tintColor
+            
+            tableView.beginUpdates()
+            tableView.endUpdates()
+            
+            default: break
+        }
+        }
+
+    
+
 }
